@@ -1,0 +1,49 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+  <body>
+    <%- include("../partials/nav.ejs") %>
+
+      <div class="blogs content">
+        <h2>All Patients</h2>
+
+        <% if (patientData.length> 0) { %>
+          <table style="width:100%">
+            <tr>
+              <th>ID</th>
+              <th>Patient Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Wallet Amount</th>
+            </tr>
+            <% patientData.forEach(patient=> { %>
+
+              <tr>
+                <td>
+                  <%= patient.id %>
+                </td>
+                <td>
+                  <%= patient.name %>
+                </td>
+                <td>
+                  <%= patient.age %>
+                </td>
+                <td>
+                  <%= patient.gender %>
+                </td>
+                <td>
+                  <%= patient.walletAmount || 0 %>
+                </td>
+              </tr>
+              <% }) %>
+          </table>
+          <% } else { %>
+            <p>There are no Patients to display...</p>
+            <% } %>
+
+      </div>
+
+      <%- include("../partials/footer.ejs", {authorized}) %>
+  </body>
+
+</html>

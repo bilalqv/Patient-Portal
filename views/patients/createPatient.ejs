@@ -1,0 +1,177 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+  <body>
+    <%- include("../partials/nav.ejs") %>
+
+      <div class="create-patient">
+        <h2>Enter Patient Details.</h2>
+        <form action="/patient/create" method="POST" id="create-form" onsubmit="return validate()">
+          <div class="input" class="form-field">
+            <label for="name">Patient Name:</label>
+            <input type="text" id="name" name="name" placeholder="Name" required>
+            <Small>Error Message</Small>
+          </div>
+          <div class="input" class="form-field">
+            <label for="age">Patient Age:</label>
+            <input type="number" id="age" name="age" placeholder="Age" required>
+            <Small>Error Message</Small>
+          </div>
+          <div class="input" class="form-field">
+            <label for="gender">Gender:</label>
+            <div class="select-dropdown">
+              <select name="gender" id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <!-- <input type="text" id="gender" name="gender" placeholder="Gender" required> -->
+
+            <Small>Error Message</Small>
+          </div>
+          <div class="input" class="form-field">
+            <label for="walletAmount">Wallet Amount:</label>
+            <input type="number" id="walletAmount" name="walletAmount" placeholder="Wallet Amount"
+              required></textarea>
+            <Small>Error Message</Small>
+          </div>
+          <button>Submit</button>
+        </form>
+      </div>
+
+      <%- include("../partials/footer.ejs", {authorized}) %>
+  </body>
+
+  <script>
+    
+    const form = document.getElementById("create-form");
+
+
+    const name_ = document.getElementById("name");
+    const age = document.getElementById("age");
+    const gender = document.getElementById("gender");
+    const walletAmount = document.getElementById("walletAmount");
+
+
+
+    const isRequired = value => !value ? false : true;
+    const isBetween = (length, min, max) => length < min || length > max ? false : true;
+    const showError = (input, message) => {
+      // get the form-field element
+      const formField = input.parentElement;
+      // add the error class
+      formField.classList.remove('success');
+      formField.classList.add('error');
+
+      // show the error message
+      const error = formField.querySelector('small');
+      error.textContent = message;
+    };
+    const showSuccess = (input) => {
+      // get the form-field element
+      const formField = input.parentElement;
+
+      // remove the error class
+      formField.classList.remove('error');
+      formField.classList.add('success');
+
+      // hide the error message
+      const error = formField.querySelector('small');
+      error.textContent = '';
+    }
+
+    function isValidName(name) {
+      if (name == null || name == "" || !name) return false;
+      return true;
+    }
+
+    function isValidAge(age) {
+      if (!isNumeric(age) || Number(age) < 0 || Number(age) > 200) return false;
+      return true;
+    }
+
+    function isValidWalletAmount(walletAmount) {
+      if (!isNumeric(walletAmount) || Number(walletAmount) < 0) return false;
+      return true;
+    }
+
+    function isValidPatientID(id) {
+      return (isNumeric(id) && Number(id) > 0);
+    }
+
+    function isNumeric(str) {
+      if (typeof str == "number") return true;
+      if (typeof str != "string") return false
+      return !isNaN(str) && !isNaN(parseFloat(str));
+    }
+
+    const checkName = () => {
+
+      let valid = false;
+      const min = 3,
+        max = 25;
+      const name = name_.value.trim();
+
+      if (!isRequired(name)) {
+        showError(name_, 'name cannot be blank.');
+      } else if (!isBetween(name.length, min, max)) {
+        showError(name_, `name must be between ${min} and ${max} characters.`)
+      } else if (!isValidName(name)) {
+        showError(name_, `Please enter valid name.`)
+      } else {
+        showSuccess(name_);
+        valid = true;
+      }
+      return valid;
+    }
+    const checkAge = () => {
+
+      let valid = false;
+      const age_ = age.value.trim();
+
+      if (!isRequired(age_)) {
+        showError(age, 'age cannot be blank.');
+      } else if (!isValidAge(age_)) {
+        showError(age, `Enter valid age.`);
+      } else {
+        showSuccess(age); 
+        valid = true;
+      }
+      return valid;
+    }
+
+    const checkWalletAmount = () => {
+      let valid = false;
+      const walletAmount_ = walletAmount.value.trim();
+
+      if (!isRequired(walletAmount_)) {
+        showError(walletAmount, 'Wallet Amount cannot be blank.');
+      } else if (!isValidWalletAmount(walletAmount_)) {
+        showError(walletAmount, `Enter valid Wallet Amount.`);
+      } else {
+        showSuccess(walletAmount);
+        valid = true;
+      }
+      return valid;
+    }
+
+    function validate() {
+      return checkName() && checkAge() && checkWalletAmount();
+    }
+
+    form.addEventListener('input', e => {
+      switch (e.target.id) {
+        case 'name':
+          checkName();
+            break;
+        case 'age':
+            checkAge();
+            break;
+        case 'walletAmount':
+            checkWalletAmount();
+            break;
+      }
+    });
+  </script>
+
+</html>

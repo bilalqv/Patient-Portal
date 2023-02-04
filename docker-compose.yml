@@ -1,0 +1,26 @@
+version: "3"
+services:
+  node-intern-app:
+    container_name: node-intern-app
+    build: .
+    ports:
+      - "3003:3000"
+    environment:
+      - PORT=3000
+    depends_on:
+      - mysql
+  
+  mysql:
+    container_name: mysql
+    image: mysql
+    volumes:
+      - mysql-db:/var/lib/mysql
+  
+  redis:
+    container_name: redis
+    image: redis
+
+  
+# declare the named volumes
+volumes:
+  mysql-db:

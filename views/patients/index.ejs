@@ -1,0 +1,32 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+  <body>
+    <%- include("../partials/nav.ejs") %>
+
+      <div class="blogs content">
+        <h2>Home Page</h2>
+        <% if(messageContent) {%>
+          <p id="hideMeAfter5Seconds" style="text-align:center;">
+            <%= messageContent %>
+          </p>
+          <% } %>
+            <p style="text-align:center;">This is Home Page</p>
+      </div>
+
+      <%- include("../partials/footer.ejs", {authorized}) %>
+  </body>
+  <style type="text/css">
+    #hideMeAfter5Seconds {
+      animation: hideAnimation 0s ease-in 5s;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes hideAnimation {
+      to {
+        visibility: hidden;
+      }
+    }
+  </style>
+
+</html>

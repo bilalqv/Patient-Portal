@@ -1,0 +1,16 @@
+<footer>
+  <br><br>
+  <% if(!authorized) { %>
+    <p>You are Logged Out, Please Login!</p>
+    <form action="/patient/login" method="post">
+      <button id="footer-login">Login</button>
+    </form>
+  <% } else { %>
+  <form action="/patient/logout" method="post">
+    <button id="footer-logout">Log Out</button>
+  </form>
+  <br>
+  <% } %>
+  Copyright &copy; MediBuddy
+  <script src="/inputValidation.js"></script>
+</footer>

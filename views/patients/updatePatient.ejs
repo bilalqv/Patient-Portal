@@ -1,0 +1,140 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+  <body>
+    <%- include("../partials/nav.ejs") %>
+
+      <div class="update-patient">
+        <h2>Update Patient.</h2>
+        <form action="/patient/update" method="POST" id="create-form" onsubmit="return validate()">
+          <div class="input form-field">
+            <label for="name">Patient ID:</label>
+            <input type="number" id="id" name="id" min="0" required>
+            <small>em</small>
+          </div>
+          <div class="input form-field">
+            <label for="walletAmount">Updated Wallet Amount:</label>
+            <input type="number" id="walletAmount" name="walletAmount" min="0" required></textarea>
+            <small>em</small>
+          </div>
+          <button>Submit</button>
+        </form>
+      </div>
+
+      <%- include("../partials/footer.ejs", {authorized}) %>
+  </body>
+  <script>
+    const form = document.getElementById("create-form");
+    const id = document.getElementById("id");
+    const walletAmount = document.getElementById("walletAmount");
+
+
+
+    const isRequired = value => !value ? false : true;
+    const isBetween = (length, min, max) => length < min || length > max ? false : true;
+    const showError = (input, message) => {
+      // get the form-field element
+      const formField = input.parentElement;
+      // add the error class
+      formField.classList.remove('success');
+      formField.classList.add('error');
+
+      // show the error message
+      const error = formField.querySelector('small');
+      error.textContent = message;
+    };
+    const showSuccess = (input) => {
+      // get the form-field element
+      const formField = input.parentElement;
+
+      // remove the error class
+      formField.classList.remove('error');
+      formField.classList.add('success');
+
+      // hide the error message
+      const error = formField.querySelector('small');
+      error.textContent = '';
+    }
+
+    function isValidWalletAmount(walletAmount) {
+      if (!isNumeric(walletAmount) || Number(walletAmount) < 0) return false;
+      return true;
+    }
+
+    function isValidPatientID(id) {
+      if(!isNumeric(id) || Number(id) < 0) return false;
+      return true;
+    }
+
+    function isNumeric(str) {
+      if (typeof str == "number") return true;
+      if (typeof str != "string") return false
+      return !isNaN(str) && !isNaN(parseFloat(str));
+    }
+
+    const checkName = () => {
+
+      let valid = false;
+      const min = 3,
+        max = 25;
+      const name = name_.value.trim();
+
+      if (!isRequired(name)) {
+        showError(name_, 'name cannot be blank.');
+      } else if (!isBetween(name.length, min, max)) {
+        showError(name_, `name must be between ${min} and ${max} characters.`)
+      } else {
+        showSuccess(name_);
+        valid = true;
+      }
+      return valid;
+    }
+    const checkID = () => {
+
+      let valid = false;
+      const id_ = id.value.trim();
+
+      if (!isRequired(id_)) {
+        showError(id, 'Patient ID cannot be blank.');
+      } else if (!isValidPatientID(id_)) {
+        showError(id, `Enter valid Patient ID.`);
+      } else {
+        showSuccess(id);
+        valid = true;
+      }
+      return valid;
+    }
+
+    const checkWalletAmount = () => {
+      let valid = false;
+      const walletAmount_ = walletAmount.value.trim();
+
+      if (!isRequired(walletAmount_)) {
+        showError(walletAmount, 'Wallet Amount cannot be blank.');
+      } else if (!isValidWalletAmount(walletAmount_)) {
+        showError(walletAmount, `Enter valid Wallet Amount.`);
+      } else {
+        showSuccess(walletAmount);
+        valid = true;
+      }
+      return valid;
+    }
+
+    function validate() {
+      return checkID() && checkWalletAmount();
+    }
+
+    form.addEventListener('input', e => {
+      switch (e.target.id) {
+        case 'id':
+          checkID();
+          break;
+        case 'walletAmount':
+          checkWalletAmount();
+          break;
+      }
+    });
+
+  </script>
+
+</html>

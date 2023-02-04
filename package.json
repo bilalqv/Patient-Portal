@@ -1,0 +1,31 @@
+{
+  "name": "demo4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "NODE_ENV=test jest",
+    "start": "node app.js",
+    "dev": "NODE_ENV=development nodemon app.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "author": "bilal",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.0.1",
+    "redis": "^4.5.1",
+    "sequelize": "^6.28.0"
+  },
+  "devDependencies": {
+    "jest": "^29.4.0",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3"
+  }
+}

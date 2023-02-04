@@ -1,0 +1,16 @@
+version: "3"
+services:
+  node-intern-app:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./:/intern/app
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+  mysql:
+    environment:
+      - MYSQL_ROOT_PASSWORD=mypassword
+      - MYSQL_DATABASE=patient_db

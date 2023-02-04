@@ -1,0 +1,92 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+  <body>
+    <%- include("../partials/nav.ejs") %>
+
+      <div class="update-patient">
+        <h2>Get Patients with Minimum Wallet Amount.</h2>
+        <form action="/patient/minimumwalletdetails" method="POST" id="create-form" onsubmit="return validate()">
+          <div class="input form-field">
+            <label for="minWalletAmount">Minimum Wallet Amount:</label>
+            <input type="number" id="minWalletAmount" name="minWalletAmount" min="0" required>
+            <small>em</small>
+          </div>
+          <button>Get Patients</button>
+        </form>
+      </div>
+
+      <%- include("../partials/footer.ejs", {authorized}) %>
+  </body>
+  <script>
+    const form = document.getElementById("create-form");
+    const minWalletAmount = document.getElementById("minWalletAmount");
+
+
+    const isRequired = value => !value ? false : true;
+    const isBetween = (length, min, max) => length < min || length > max ? false : true;
+    const showError = (input, message) => {
+      // get the form-field element
+      const formField = input.parentElement;
+      // add the error class
+      formField.classList.remove('success');
+      formField.classList.add('error');
+
+      // show the error message
+      const error = formField.querySelector('small');
+      error.textContent = message;
+    };
+    const showSuccess = (input) => {
+      // get the form-field element
+      const formField = input.parentElement;
+
+      // remove the error class
+      formField.classList.remove('error');
+      formField.classList.add('success');
+
+      // hide the error message
+      const error = formField.querySelector('small');
+      error.textContent = '';
+    }
+
+    function isValidWalletAmount(walletAmount) {
+      if (!isNumeric(walletAmount) || Number(walletAmount) < 0) return false;
+      return true;
+    }
+
+    function isNumeric(str) {
+      if (typeof str == "number") return true;
+      if (typeof str != "string") return false
+      return !isNaN(str) && !isNaN(parseFloat(str));
+    }
+
+    const checkWalletAmount = () => {
+      let valid = false;
+      const walletAmount_ = minWalletAmount.value.trim();
+
+      if (!isRequired(walletAmount_)) {
+        showError(minWalletAmount, 'Wallet Amount cannot be blank.');
+      } else if (!isValidWalletAmount(walletAmount_)) {
+        showError(minWalletAmount, `Enter valid Wallet Amount.`);
+      } else {
+        showSuccess(minWalletAmount);
+        valid = true;
+      }
+      return valid;
+    }
+
+    function validate() {
+      return checkWalletAmount();
+    }
+
+    form.addEventListener('input', e => {
+      switch (e.target.id) {
+        case 'minWalletAmount':
+          checkWalletAmount();
+          break;
+      }
+    });
+
+  </script>
+
+</html>

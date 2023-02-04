@@ -1,0 +1,100 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+  <body>
+    <%- include("../partials/nav.ejs") %>
+
+      <div class="update-patient">
+        <h2>Get Specific Patient Details</h2>
+        <form action="/patient/details" method="POST" id="create-form" onsubmit="return validate()">
+          <div class="input form-field">
+            <label for="name">Patient ID:</label>
+            <input type="number" id="id" name="id" required>
+            <small></small>
+          </div>
+          <button>Get Details</button>
+        </form>
+      </div>
+
+      <%- include("../partials/footer.ejs", {authorized}) %>
+  </body>
+
+  <script>
+    const form = document.getElementById("create-form");
+    const id = document.getElementById("id");
+
+
+    const isRequired = value => {
+      console.log('val - ', typeof value, value, value === '');
+      if (typeof Number(value) == NaN) return isValidPatientID(value);
+      return value === '' ? false : true;
+    };
+    const isBetween = (length, min, max) => length < min || length > max ? false : true;
+    const showError = (input, message) => {
+      // get the form-field element
+      const formField = input.parentElement;
+      // add the error class
+      formField.classList.remove('success');
+      formField.classList.add('error');
+
+      // show the error message
+      const error = formField.querySelector('small');
+      error.textContent = message;
+      return false;
+    };
+    const showSuccess = (input) => {
+      // get the form-field element
+      const formField = input.parentElement;
+
+      // remove the error class
+      formField.classList.remove('error');
+      formField.classList.add('success');
+
+      // hide the error message
+      const error = formField.querySelector('small');
+      error.textContent = '';
+      return true;
+    }
+
+    function isValidPatientID(id) {
+      if (!isNumeric(id) || Number(id) < 0) return false;
+      return true;
+    }
+
+    function isNumeric(str) {
+      if (typeof str == "number") return true;
+      if (typeof str != "string") return false
+      return !isNaN(str) && !isNaN(parseFloat(str));
+    }
+
+    const checkID = () => {
+
+      let valid = false;
+      const id_ = id.value.trim();
+
+      if (!isRequired(id_)) {
+        showError(id, 'Patient ID cannot be blank.');
+      } else if (!isValidPatientID(id_)) {
+        showError(id, `Enter valid Patient ID.`);
+      } else {
+        showSuccess(id);
+        valid = true;
+      }
+      return valid;
+    }
+
+    form.addEventListener('input', e => {
+      switch (e.target.id) {
+        case 'id':
+          checkID();
+          break;
+      }
+    });
+
+    const validate = () => {
+      return checkID();
+    }
+
+  </script>
+
+</html>

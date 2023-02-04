@@ -1,0 +1,35 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+<body>
+  <%- include("../partials/nav.ejs") %>
+
+  <div class="blogs content">
+    <h2>Single Patient Details</h2>
+
+    <% if (patientData) { %>
+      <table style="width:100%">
+        <tr>
+          <th>ID</th>
+          <th>Patient Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Wallet Amount</th>
+        </tr>
+        <tr>
+          <td><%= patientData.id %></td>
+          <td><%= patientData.name %></td>
+          <td><%= patientData.age %></td>
+          <td><%= patientData.gender %></td>
+          <td><%= patientData.walletAmount || 0 %></td>
+        </tr>
+      </table>
+    <% } else { %>
+      <p>There is no Patient with this ID.</p>
+    <% } %>
+    
+  </div>
+
+  <%- include("../partials/footer.ejs", {authorized}) %>
+</body>
+</html>
