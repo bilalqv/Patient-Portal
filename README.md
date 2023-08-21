@@ -20,7 +20,7 @@
 
 ## GUI
 
-![GUI](assets/file!.gif)
+![GUI](assets/demo.gif)
 
 ## Features
 ### Usage

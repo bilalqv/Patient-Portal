@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const dbCredentials = require('../config/dbCredentials.config');
+const dbCredentials = require('../config/dbCredentials');
 // const dockerCredentials = require('../config/docker.config');
 
 const sequelize = new Sequelize(

@@ -71,6 +71,7 @@ const get_all_patients = async (req, res) => {
     sendResponse(res, dataToSend);
   } catch (err) {
     if (err) {
+      console.log(`Error: ${err}`);
       res.status(500).send('Error in getting patients');
     }
   }
@@ -215,6 +216,7 @@ const patients_with_min_wallet_details = async (req, res) => {
 
 const login = (req, res) => {
   try {
+    console.log('Inside login');
     req.session.authorized = true;
     req.session.save();
     res.redirect('/patient/dashboard');
